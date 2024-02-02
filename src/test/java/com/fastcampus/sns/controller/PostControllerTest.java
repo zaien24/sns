@@ -6,6 +6,9 @@ import com.fastcampus.sns.controller.request.PostModifyRequest;
 import com.fastcampus.sns.controller.request.UserJoinRequest;
 import com.fastcampus.sns.exception.ErrorCode;
 import com.fastcampus.sns.exception.SnsApplicationException;
+import com.fastcampus.sns.fixture.PostEntityFixture;
+import com.fastcampus.sns.model.Post;
+import com.fastcampus.sns.model.entity.PostEntity;
 import com.fastcampus.sns.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -21,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -74,6 +78,9 @@ public class PostControllerTest {
         String title = "title";
         String body = "body";
 
+        when(postService.modify(eq(title), eq(body), any(), any())).
+                thenReturn(Post.fromEntity(PostEntityFixture.get("userName", 1, 1)));
+
         mockMvc.perform(put("/api/v1/posts/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(new PostModifyRequest(title,body)))
@@ -92,7 +99,7 @@ public class PostControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(new PostModifyRequest(title,body)))
                 ).andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
