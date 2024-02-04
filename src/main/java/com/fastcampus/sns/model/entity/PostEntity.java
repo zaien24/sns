@@ -14,7 +14,7 @@ import java.time.Instant;
 @Table(name = "\"post\"")
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATED \"post\" SET deleted_at = NOW() where id=?")
+@SQLDelete(sql = "UPDATE \"post\" SET deleted_at = NOW() where id=?")
 @Where(clause = "deleted_at is NULL")
 public class PostEntity {
 
@@ -25,7 +25,7 @@ public class PostEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "body", columnDefinition =  "TEXT")
+    @Column(name = "body", columnDefinition =  "TEXT") 
     private String body;
 
     @ManyToOne
