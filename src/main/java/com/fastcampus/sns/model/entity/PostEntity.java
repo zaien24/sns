@@ -25,7 +25,7 @@ public class PostEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "body", columnDefinition =  "TEXT") 
+    @Column(name = "body", columnDefinition =  "TEXT")
     private String body;
 
     @ManyToOne
