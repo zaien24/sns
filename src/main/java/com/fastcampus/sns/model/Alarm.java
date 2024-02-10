@@ -1,6 +1,6 @@
-package com.fastcampus.sns.model.entity;
+package com.fastcampus.sns.model;
 
-import com.fastcampus.sns.model.User;
+import com.fastcampus.sns.model.entity.AlarmEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,21 +8,21 @@ import java.sql.Timestamp;
 
 @Getter
 @AllArgsConstructor
-public class Comment {
+public class Alarm {
     private Integer id;
-    private String comment;
-    private String userName;
-    private Integer postId;
+    private User user;
+    private AlarmType alarmType;
+    private AlarmArgs args;
     private Timestamp registeredAt;
     private Timestamp updatedAt;
     private Timestamp deletedAt;
 
-    public static Comment fromEntity(CommentEntity entity) {
-        return new Comment(
+    public static Alarm fromEntity(AlarmEntity entity) {
+        return new Alarm(
                 entity.getId(),
-                entity.getComment(),
-                entity.getUser().getUserName(),
-                entity.getPost().getId(),
+                User.fromEntity(entity.getUser()),
+                entity.getAlarmType(),
+                entity.getArgs(),
                 entity.getRegisteredAt(),
                 entity.getUpdatedAt(),
                 entity.getDeletedAt()
