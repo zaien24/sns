@@ -22,3 +22,26 @@ jwt:
 spring.redis:
   url: redis://:p8e682aad12b7caf6e8a4d75769964a337be7324cd4634764d238a7c4f53b357e@ec2-44-208-247-66.compute-1.amazonaws.com:22049
 
+spring:
+  kafka:
+    properties:
+      security.protocol: SASL_SSL
+      sasl.mechanism: SCRAM-SHA-256
+      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="r2rj2fh0" password="e_BnIr6ESAbpmuu7L7XugsMNmYlx3eFq";
+    consumer:
+      properties.spring.json.trusted.packages: "*"
+      bootstrap-servers: dory-01.srvs.cloudkafka.com:9094, dory-02.srvs.cloudkafka.com:9094, dory-03.srvs.cloudkafka.com:9094
+      group-id: notification
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.IntegerDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    listener:
+      ack-mode: MANUAL
+    producer:
+      bootstrap-servers: dory-01.srvs.cloudkafka.com:9094, dory-02.srvs.cloudkafka.com:9094, dory-03.srvs.cloudkafka.com:9094
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties.enable.idempotence: false
+    topic:
+      notification: r2rj2fh0-notification
+
